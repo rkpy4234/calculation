@@ -27,12 +27,12 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;    
         }
         .calculation{
+            margin-top: 50px;
             width: auto;
-            padding: 20px;
+            padding: 25px;
             border: none;
             border-radius: 20px;
             box-shadow: var(--box-shadow);
@@ -44,13 +44,16 @@
 
         .calculation_time{
             font-size: 15px;
-            margin: 10px 0;
-            text-align: center;
+            margin: 10px 40px 20px 0;
+          
         }
-        .input-container,
-        .rate-container {
+        .input-container{
             margin-bottom: 20px;
             text-align: center;
+        }
+        .rate-container{
+            margin-bottom: 20px;
+            width: 100%;
         }
 
         .input-container input{
@@ -70,15 +73,18 @@
             box-shadow: var(--inset-boxshadow);
         }
         .rate-container input{
-            margin: 0 5px;
+            padding-left: 10px;
             min-height: 30px;
-            width: 75px;
+            width: 90px;
             font-size: 12px;
-            text-align: center;
             border: none;
             border-radius: 5px;
             outline: none;
             box-shadow: var(--box-shadow);
+        }
+        .rate-container button{
+            float: right;
+            
         }
         button {
             padding:0 10px 0 10px;
@@ -95,12 +101,6 @@
             color: var(--hover);
             box-shadow: var(--inset-boxshadow);
         }
-
-        button:hover {
-            color: var(--color);
-            background-color: #45a049;
-        }
-
         table {
             width:100%;
             border-collapse: collapse;
@@ -149,8 +149,9 @@
                 Total Time: 0 Hours, 0 Minutes
             </div>
             <div class="rate-container">
-                <input type="number" id="rate" placeholder="Rate/hours">
-                <button onclick="calculateCost()">Calculate</button>
+                <label>Rate :</label>
+                <input type="number" id="rate" placeholder="Rate/hours"><br><br>
+                <button onclick="calculateCost()">Calculate</button><br>
             </div>
             <div id="totalCost">
                 Total Rs: 0.00
