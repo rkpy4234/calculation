@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Record Time and Calculate Cost</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: var(--background);
+            color: var(--color);
+            
+        }
+        :root{
+            --color:#595959;
+            --background:#dde1e7;
+            --hover:#3498db;
+            --box-shadow: -3px -3px 7px #ffffff73, 2px 2px 5px rgba(94,104,121,0.288);
+            --inset-boxshadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #ffffff73;
+
+        }
+        section {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;    
+        }
+        .calculation{
+            width: auto;
+            padding: 10px;
+            border: none;
+            border-radius: 20px;
+            box-shadow: var(--box-shadow);
+        }
+        .calculation h1{
+            text-align: center;
+            margin: 10px 0 20px 0;
+        }
+
+        .calculation_time{
+            font-size: 10px;
+            margin: 10px 0;
+            text-align: center;
+        }
+        .input-container,
+        .rate-container {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .input-container input{
+            color: var(--hover);
+            margin: 0 5px;
+            min-height: 20px;
+            width: 40px;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+            box-shadow: var(--box-shadow);
+        }
+        .input-container input:focus{
+            color: var(--hover);
+            box-shadow: var(--inset-boxshadow);
+        }
+        .rate-container input{
+            margin: 0 5px;
+            min-height: 20px;
+            width: 75px;
+            font-size: 12px;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+            box-shadow: var(--box-shadow);
+        }
+        button {
+            padding:0 10px 0 10px;
+            min-height: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:focus{
+            background-color: var(--background);
+            color: var(--hover);
+            box-shadow: var(--inset-boxshadow);
+        }
+
+        button:hover {
+            color: var(--color);
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+        table,
+        th,
+        td {
+            border: 1px solid var(--color);
+        }
+
+        th,
+        td {
+            min-height: 20px;
+            text-align: center;
+        }
+
+        th {
+            background-color: var(--background);
+        }
+
+        .clear-container button {
+            margin-top: 10px;
+            background-color: #db8534;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <div class="calculation">
+            <h1>Calculator</h1>
+            <div class="input-container">
+                <input type="number" id="hours" placeholder="hh">:
+                <input type="number" id="minutes" placeholder="mm">
+                <button onclick="recordTime()">Record</button>
+            </div>
+            <table id="timeTable">
+                <tr>
+                    <th>Hours</th>
+                    <th>Minutes</th>
+                </tr>
+            </table>
+            <div id="totalTime" class="calculation_time">
+                Total Time: 0 Hours, 0 Minutes
+            </div>
+            <div class="rate-container">
+                <input type="number" id="rate" placeholder="Rate/hours">
+                <button onclick="calculateCost()">Calculate</button>
+            </div>
+            <div id="totalCost">
+                Total Rs: 0.00
+            </div>
+            <div class="clear-container">
+                <button onclick="clearPage()">Clear</button>
+            </div>
+        </div>
+    </section>
+
+
+    <script>
+        var totalHours = 0;
+        var totalMinutes = 0;
+
+        function recordTime() {
+            var hours = parseInt(document.getElementById('hours').value);
+            var minutes = parseInt(document.getElementById('minutes').value);
+
+            if (isNaN(hours)) {
+                hours = 0;
+            }
+            if (isNaN(minutes)) {
+                minutes = 0;
+            }
+
+            var table = document.getElementById("timeTable");
+            var row = table.insertRow(-1);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            cell1.innerHTML = hours;
+            cell2.innerHTML = minutes;
+
+            totalHours += hours;
+            totalMinutes += minutes;
+
+            // Adjust total time
+            totalHours += Math.floor(totalMinutes / 60);
+            totalMinutes = totalMinutes % 60;
+
+            document.getElementById('totalTime').innerHTML = 'Total Time: ' + totalHours + ' Hours, ' + totalMinutes + ' Minutes';
+
+            document.getElementById('hours').value = '';
+            document.getElementById('minutes').value = '';
+        }
+
+        function calculateCost() {
+            var rate = parseFloat(document.getElementById('rate').value);
+
+            if (isNaN(rate)) {
+                alert('Please enter a valid rate');
+                return;
+            }
+
+            var totalTimeInHours = totalHours + (totalMinutes / 60);
+            var totalCost = totalTimeInHours * rate;
+
+            document.getElementById('totalCost').innerHTML = 'Total Rs: ' + totalCost.toFixed(2);
+        }
+
+        function clearPage() {
+            location.reload();
+        }
+    </script>
+</body>
+
+</html>
